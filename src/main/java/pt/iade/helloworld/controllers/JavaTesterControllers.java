@@ -1,68 +1,92 @@
 package pt.iade.helloworld.controllers;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Scanner;
+import pt.iade.helloworld.models.CurricularUnit;
+
 
 @RestController
 @RequestMapping(path="/api/java/tester/")
 public class JavaTesterControllers {
     private Logger logger = LoggerFactory.getLogger(JavaTesterControllers.class);
-    @GetMapping(path = "/author", produces= MediaType.APPLICATION_JSON_VALUE)
-    public void getAuthor() {
-              Scanner myObj = new Scanner(System.in);
-          
-              System.out.println("Enter name, age and salary:");
-          
-              // String input
-              String name = myObj.nextLine();
-          
-              // Numerical input
-              int age = myObj.nextInt();
-              double salary = myObj.nextDouble();
-          
-              // Output input by user
-              System.out.println("Name: " + name);
-              System.out.println("Age: " + age);
-              System.out.println("Salary: " + salary);
+
+    @GetMapping(path = "/access/{student}/{covid}", produces= MediaType.APPLICATION_JSON_VALUE) 
+    public boolean getGreeting(@PathVariable("student") boolean isStudent,
+                               @PathVariable("covid") boolean hasCovid) {
+        if (isStudent && !(hasCovid)) {
+            return true ;
+        } else { 
+            return false ;
+        }
+    }
+    
+    @GetMapping(path = "/required/{student}/{temperature}/{classType}", produces= MediaType.APPLICATION_JSON_VALUE) 
+    public boolean getRequired(@PathVariable("student") boolean isStudent,
+                               @PathVariable("temperature") double hasCovid,
+                               @PathVariable("classType") String type) {  
+        if (isStudent && (34.5 < hasCovid) && (hasCovid> 37.5) && type =="presential" ){
+            return true;
+        } else {
+            return false;
+        }
+    }  
+                                   
+    @GetMapping(path = "/evacuation/{fire}/{numberOfCovids}/{powerShutdown}/{comeBackTime}", produces= MediaType.APPLICATION_JSON_VALUE) 
+    public boolean getBuilding(@PathVariable("fire") boolean hasFire,
+                               @PathVariable("numberOfCovids") double numCovid,
+                               @PathVariable("powerShutdown") boolean isPwShut,
+                               @PathVariable("comeBackTime") int backTime) { 
+        if (((hasFire) && (numCovid > 5))  ||  ((isPwShut) && (backTime > 15))){
+            return true;
+        }else{
+            return false;
+        }
+                         
+
+
+    @GetMapping(path = "/author/{name}/{classnum}/{height}/{fanball}/{clubcolor}", produces= MediaType.APPLICATION_JSON_VALUE) 
+    public String getAuthor(@PathVariable("name") String name, 
+                            @PathVariable("classnum") Number classnum, 
+                            @PathVariable("height") Number height ,
+                            @PathVariable("fanball") char fanball ,
+                            @PathVariable("clubcolor") char clubcolor, 
+                            String MyText) {
+        MyText = "Done by " + name + " with number " + classnum + ".";
+        MyText=MyText +"I am " + height + " tall";
+        if (fanball == 'n') {
+            MyText=MyText + " and not a fan of football." ;
+        } else if (fanball == 'y'){
+            MyText=MyText+" and I am a fan of football." ;
+            if (clubcolor == 'r') {
+                MyText=MyText + "My Favourite club is Benfica." ;
+            } else if (clubcolor == 'g')  {
+                MyText=MyText + "My Favourite club is Sporting Clube Portugal.";
+            } else if (clubcolor == 'b')  {
+                MyText=MyText +"My Favourite club is Porto.";
             }
+        }
+ 
+        logger.info(MyText); 
+        return MyText;
 }
 
 
-    
-/*public class Myclass{
-    String first_name;
-    System.out.print("Enter your name: ");
-    first_name=user_input.next();
-    int id;
-    System.out.print("Enter your number: ");
-    id=user_input.next();
-    double height;
-    System.out.print("Enter your height: ");
-    height=user_input.next();
-    char answer;
-    System.out.print("Are you a fan of footbal Y or N: ");
-    answer=user_input.next();
-        if answer=="N"  
-        System.out.println("Done by "+ name +" with number"+ id )
-        System.out.println("I am "+ height +" tall and not a fan of football.");
-        } else {
-        char color;
-        System.out.print("Enter the first letter of the color of your favorite football club:")
-        color=user_input.next()
-        System.out.println("Done by "+ name +" with number"+ id )
-        System.out.println("I am "+height +" tall and I am a fan of footbal.");
-        if color=="R"
-            System.out.print("My favorite club is Benfica")
-        } else if color=="B" {
-            System.out.print("My favorite club is Porto")
-        } else color"G" {
-            System.out.print("My favorite club is Sporting")
-        }  
+    private ArrayList<CurricularUnit> units = new ArrayList<CurricularUnit>();
+
+    @PostMapping(path = "/units")
+    public CurricularUnit saveUnit(@RequestBody CurricularUnit unit) {
+        logger.info("Added unit "+unit.getName());
+        units.add(unit);
+        return unit;
     }
-  */  
+}

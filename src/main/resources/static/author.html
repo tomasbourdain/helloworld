@@ -1,0 +1,39 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <title>Author</title> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+        <script src="author.js"></script> 
+    </head> 
+    <body> 
+        <p><label for="name">Your name: </label> 
+            <input type=text id="name"></p> 
+        <p><label for="number">Your number: </label> 
+            <input type=number  id="classnum"></p> 
+        <p><label for="height">Your height: </label> 
+            <input type=number id="height"></p> 
+        <p><label for="fanball">Fan of Football:</label></p>
+        <div>
+            <input type="radio"  name="fanball" value="y">
+            <label for="y">Yes</label><br>
+            <input type="radio"  name="fanball" value="n">
+            <label for="n">No</label><br>
+        </div>
+        <p><label for="clubcolor">Color of your favourite club: </label></p>
+        <div> 
+            <input type="radio"  name="clubcolor" value="r">
+            <label for="r">Red</label><br>
+            <input type="radio"  name="clubcolor" value="g">
+            <label for="g">Green</label><br>
+            <input type="radio"   name="clubcolor" value="b">
+            <label for="b">Blue</label><br>
+            <input type="radio"   name="clubcolor" value="n">
+            <label for="n">None</label><br>
+            
+        </div> 
+        <input type=button value="Submit" onclick="author()"> 
+
+        <h5 id="message"></h5>
+    </body> 
+</html>
